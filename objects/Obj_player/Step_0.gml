@@ -1,136 +1,254 @@
 /*
-Criando os botoes do jogo
-para isto usaremos as funçoes keybord_check e ord()
-explicação no jogo Hello Word sabado tarde novo
+Criando os botões do jogo
+Para isto usaremos as funções keyboard_check e ord()
+Explicação no jogo Hello World Sabado Tarde Novo
 
-a partir de hoje usaremos Regions(regioes)
-elas ajudam a deixar o codigo mais legivel e organizado
-pois podemdo deixar alguns temas ou funçoes relacionadas em um mesmo lugar
-para inicialas é so usar
-#region (adicionar nome da região)
+A partir de hoje usaremos Regions(regiões)
+Elas ajudam a deixar o código mais legivel e organizado
+Pois podemos deixar alguns temas ou funções relacionados em um mesmo lugar
+Para inicialas é só usar 
+#region (adiciona nome da região)
 
 #endregion
-para fechar
+Para fechar
 */
 
-#region teclas do jogo
-	//adicionando as teclas
+#region Teclas do player
+	//Adicionando as teclas
 	
-	//setas
-	//como as setas são "universais ",podemos usar o vk e o nome da tecla em ingles
+	//Setas
+	//Como as setas são "universais", podemos usar o vk e o nome da tecla em inglês
 	setaCima = keyboard_check(vk_up)
 	setaEsquerda = keyboard_check(vk_left)
-	setaDireita = keyboard_check(vk_right)
+	setaDirieta = keyboard_check(vk_right)
 	
-	//teclas de letras
-	//como as caracteres de letra mudam de pais paara pais, temos que usar a função ord()
-	//para achar a posição delas no teclado (lembrando que sempre deve ser em latra maiuscula)
+	//Teclas de letras
+	//Como as caracteres de letra mudam de país para país, temos que usar a função ord()
+	//Para achar a posiçãom delas no teclado (Lembrando que sempre deve ser em letra maiuscula)
 	teclaCima = keyboard_check(ord("W"))
 	teclaEsquerda = keyboard_check(ord("A"))
 	teclaDireita = keyboard_check(ord("D"))
 	
-	//juntar as teclas e as setas com suas parceiras
-	//ou seja,quer eu aperte ou uma ou a outra,ira dar o mesmo resultado
+	//Juntar as teclas e as setas com suas parceiras
+	//Ou seja, quer eu aperte uma ou a outra, ira dar o mesmo resultado
 	andar = setaCima or teclaCima
 	
-	//quando apertar para esquerda ele aumentara o angulo e para direita diminuira
-	girar = + (setaEsquerda or teclaEsquerda) - (setaDireita or teclaDireita)
-	
+	//Quando apertar  para esquerda ele aumentará o angulo e para direita diminuirá
+	girar = + (setaEsquerda or teclaEsquerda) - (setaDirieta or teclaDireita)
+
 #endregion
 
-#region movimentaçaõ
-	 //vamos começar pelo mais simples,vamos somar ao valor que háem girar 
-	 //ou seja, ele vai aumentar ou diminuir
-	 
-	 //um erro que estava acontecendo é que caso apertemos para a direita com o angulo
-	 //sendo zero,ele negativava o angulo,fazendo com que a nossa conta não funcionasse
-	 //e a mesma coisa acontecia caso apertasse para esquerda e o angulo passase de 360
-	 //vai para 355 (ultimo grau antes do zero)
-	 if image_angle + girar * velocidadeGiro < 0{
-		 image_angle = 355
-	 }
-	 
-
-	 
-	 //para resetar o angulo
-	 if image_angle >= 360{
-		 image_angle = 0
-	 }
-	 
-	 image_angle += girar * velocidadeGiro
+#region Movimentação
+	//Vamos começar pelo mais simples, vamos somar ao algulo o valor que há em girar
+	//Ou seja, ele vai aumentar ou diminuir
 	
-	 //nos vamos verificar se eu não estou em um angulo que ande apenas para um lado 
-	 //como checarmos isto? todos os angulos que vão apenas para uma direção
-	 //são divisiveis por 90, ou seja,divisdidos por 90 posuem o resultado 0
-	 
-	 //primiro,vamos verificar esta condição 
-	 if image_angle % 90 == 0{
-		#endregion	 
-			 #region movimentos "absolutos"
-			 //depois de checarmos se é uma direçaõ total,alteramos os valore das variaveis
-			 //de direção
-	 
-			 //primeiro,se está indo para a direita
-			 //direita,só pode ser o angulo 0
-	 
-			 if image_angle == 0{
-		 
-				 //para a direita, a  direcaoHorizontal vai ser igual a 1 positivo
-				 //e a  direcaoVertical vai ser 0
-				 direcaoVertical = 0
-				 direcaoHorizontal = 1
-			 }
-	 
-			 //180 está indo para esquerda
-	 
-			else if image_angle == 180{
-		 
-				 //não desce e nem sobe,ou seja,direçãoVertical vai ser 0
-				 //E a direçãohorizontal vai ser -1
-		 
-				 direcaoVertical = 0
-				 direcaoHorizontal = -1
-			 }
-	 
-			 //90 está indo para cima
-			else if image_angle == 90{
-				//apenas sobe
-				direcaoVertical = -1
-				direcaoHorizontal = 0
+	//Um erro que estava acontecendo é que caso apertemos para a direita com o angulo
+	//sendo zero, ele negativava o angulo, fazendo com que a nossa conta não funcionasce
+	//E a mmesa coisa acontecia caso apertasse para esquerda e o ângulo passasse de 360
+	//Enão agora, caso passe de 360, volta para zero e caso dimuniua abaixo de 0
+	//Vai para 355 (último grau antes do zero)
+	if image_angle + girar * velocidadeGiro < 0{
+		image_angle = 355
+	}
+	//Para resetar o angulo
+	else if image_angle >= 360{
+		image_angle = 0
+	}
+	
+	image_angle += girar * velocidadeGiro
+	
+	
+	
+	//Nós vamos verificar se eu não estou em um ângulo que ande apenas para um lado
+	//Como checaremos isto? Todos os angulos que vão apenas para uma direção
+	//São divisiveis por 90, ou seja, divididos por 90 possuem o resultado 0
+	
+	//Primeiro, vamos verificar esta condição
+	
+	if image_angle % 90 == 0{
+		#region Movimentos "absolutos"
+			//Depois de checarmos se é uma direção total, alteramos os valores das variáveis
+			//de direção
+		
+			//Primeiro, se está indo para a direita
+			//direita, só pode ser o ângulo 0
+			if image_angle == 0{
+				//Para a direita, a direcaoHorizontal vai ser 1 positivo
+				//E a direcaoVertical vai ser 0
+				direcaoVertical = 0
+				direcaoHorizontal = velocidade * 2
 			}
-	
-			//so sobrou o 270,que é para baixo
+		
+			//180 está indo para esquerda
+			else if image_angle == 180{
+				//Não desce e nem sobe, ou seja, direcasoVertical vai ser 0
+				//E a direcaoHorizontal vai ser -1
+				direcaoVertical = 0
+				direcaoHorizontal = velocidade * 2
+			}
+		
+			//90 está indo para cima
+			else if image_angle == 90{
+				//Apenas sobe
+				direcaoVertical = -1
+				direcaoHorizontal = velocidade * 2
+			}
+		
+			//Só sobrou o 270, que é para baixo
 			else{
-				//apenas desce
-				direcaoHorizontal = 0
-				direcaoVertical = 1
+				//Apenas desce
+				direcaoHorizontal = velocidade * 2
+				direcaoVertical = 0
 			}
 			angulo = 0
-			#endregion
-		}
+		#endregion
+	}
+	
+	//Quando o angulo não for divisivel por 90
 	else{
-		direcao
-		//quando não for divisivel por 90
-		//aqui nós queremos andar nas diagonais de cada angulo
-		//ou seja,se eu tiver entre dois angulos "absolutos"iremos checar qual é a direçaõ
-		//calcular a direção
-		//primeiro,iremos pegar o resto da divisão do image_angle por 90, ou seja,ele pode
-		//entre 1 a 89
-		angulo = image_angle % 90
+		#region Movimentos diagonais
+			//Calculo para andar nas diagonais
 		
-		angulo /= 100
 		
-		//agora,iremos calcular para qual direção a nave vai
-		//caso o angulo seja menor 180, a nave está subindo
-		if image_angle < 180{
-			direcaoVertical=1
-		}
-	
+			//Aqui nós queremos andar nas diagonais de cada angulo
+			//Ou seja, se eu estiver entre dois angulos "absolutos" iremos checar qual é a direção a seguir
+			//Calcular a direção
+			//Primeiro, iremos pegar o resto da divisão do image_angle por 90, ou seja, ele pode ser
+			//Entre 1 a 89 
+			angulo = image_angle % 90
+			
+			//Depois iremos transformar isto em casas decimais
+			angulo /= 100 
+		
+			//Agora, iremos calcular para qaul direção a nave vai
+			//Caso o angulo seja menor 180, a nave está subindo
+			if image_angle < 180{
+				direcaoVertical = -velocidade
+			}
+		
+			//Caso não seja, só pode ser maior, ou seja, está descendo
+		
+			else{
+				direcaoVertical = velocidade
+			}
+		
+			//Agora as direções horizontais
+			//Caso seja menor que 90 ou maior que 270, vai para direita
+			if image_angle < 90 or image_angle > 270{
+				direcaoHorizontal = velocidade
+			}
+		
+			//Cso não seja, só pode ser maior que 90 ou menor que 270, ou seja, vai para esquerda
+		
+			else if image_angle > 90 or image_angle < 270{
+				direcaoHorizontal = -velocidade
+			}
+		#endregion
 	}
-	//caso precione os botoes para cima
+	
+	//Quando não for divisivel por 90
+	
+	//Caso precione os botões para cima
+	
+	//No final, iremos somar o angulo mais 1 e multiplicar pela direção
 	if andar{
-		x += direcaoHorizontal
-		y +=direcaoVertical
+		/*
+		A cada vez que o player apertar para frente,iremos aumentar o valor da propulsão 
+		e pior exemplo,caso ele esteja indo para frente e virar ao lado ao contrario,demorara 
+		um certo tempo antes de ele voltar a avançar por causa do valor de propulsaõ 
+		e caso o player não aperte nenhuma botão ,iremos somar um ou menos um ao valor atual 
+		para que ele desacelere sozinho
+		*/
+		
+		// vamos limitar a velocidade do player para o que há em velocidadelimite
+		//ou seja, a propulsaõ vai de (atualmente) de 30 a -30
+		if propulsaohorizontal  + direcaoHorizontal <= velocidadeLimite and propulsaohorizontal + direcaoHorizontal >= -velocidadeLimite{
+			propulsaohorizontal += direcaoHorizontal
+		}
+		
+		  if propulsaoVertical + direcaoVertical <= velocidadeLimite and propulsaoVertical + direcaoVertical >= -velocidadeLimite{
+			  propulsaoVertical += direcaoVertical
+		  }
+	}
+	else{
+			/*
+			para desacelerar o valor que há em propulsaõ ,iremos ultilizar a função sign()
+			descrição:
+			function returns whether a number is positive,negative or and returns 
+			1, -1,0 respetively.
+			n the number to get the sign of.
+		
+			tradução
+			função sign (n: valor real) retorno de valor real
+			esta função retorna quando um numero é positivo,negativo,ou nenhuma dos dois(0) e retorna 
+			1, -1 e 0 respectivamente
+			n 0 numero que queira pegar o sinal
+		
+			ou seja ,vamos verificar se os valores são positivos negativos ou zerados 
+			pois assim,quando o player soltar o botão vamos pegar o sinal do numero e multiplicar 
+			por -1 ,desta forma ,se o valor for positivo,ele vai somar -1 e quando for negativo
+			vai somar 1 fazendo ele desacelerar
+			*/
+			propulsaohorizontal += sign(propulsaohorizontal) * -0.5
+			propulsaoVertical += sign(propulsaoVertical) * -0.5
 	}
 	
+		x += propulsaohorizontal
+		y += propulsaoVertical
+		
+		#region Teletransporte
+		/*
+		o teletransporte funcionara de uma maneira bem simples toda vez que o player sair pelas bordas 
+		do jogo teletransportaemos ele para o outro canto
+		ou seja
+		se ele sair por cima,ele vai para baixo
+		se ele sair por baixo,vai para coma 
+		se ele sair pela esquerda,ele vai para direita
+		se ele sair pela direita ele vai para esquerda
+		ok,mas comc poderemos fazer isto
+		
+		bem simples 
+		as cordenadas visiveis ficam entre 0 e o tamenho da sala
+		ou seja, na direção horizontal,as coordenadas visiveis ficam entre 0 e a largura da sala 
+		e na vertical,ficam entre 0 e a altura da sala
+		
+		ou seja,
+		caso queiramos checar se o player saiu pela esquerda ,qual valor nos checaremos 
+		certo,e como queremos checar se saiu pela esquerda ,o x deve ser comparado
+		certo,e vamos verificar que ele é maior ou menor que 0? menor
+		
+		então,caso o x dele seja menor que 0,iremos mandar ele para o outor 
+		na largura
+		
+		a mesma coisa(só que ao contrario) quando ele sair pela direita,no caso
+		a largura da tela e vai receber 0, indo para o lado esquerdo
+		
+		como já verificamos o x,sabemos que só sobrou o Y , ou seja ,quando ele 
+		caso o y saia por cima qual valor faremos a comparação,o 0 ou a altura
+		ele é menor que 0
+		se for,ele vai para o outro lado, ou seja,np valor que há na altura da sala
+		
+		*/
+		
+		//saiu pela esquerda
+		if x < 0{
+			x = room_width
+		}
+		
+		//saiu pela direita
+		else if x >  room_width{
+			x = 0
+		}
+		
+		//saiu por cima
+		if y <0{
+			y = room_height
+		}
+		
+		//saiu por baixo
+		else if y > room_width{
+			y = 0
+			}
+		
+		
 #endregion
