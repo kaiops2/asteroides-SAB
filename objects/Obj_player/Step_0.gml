@@ -35,6 +35,31 @@ Para fechar
 	
 	//Quando apertar  para esquerda ele aumentará o angulo e para direita diminuirá
 	girar = + (setaEsquerda or teclaEsquerda) - (setaDirieta or teclaDireita)
+	
+	/*
+	Para fazer o usuario toda hora apertar as teclas de ataque,usaremos a função keyboard_check_pressed()
+	que é verdadeiro toda vez que uma tecla é precionada, e diferente do check normal, é que ele só checa se 
+	foi pressionada e não se esta sendo pressionada
+	
+	para checar o mouse,usaremos o mouse_chech_button_pressed() passando o mb_left como parametro,que é
+	o botão esquerdo
+	*/
+	
+	//teclas de ataque
+	//Enter
+	teclaEnter = keyboard_check_pressed(vk_enter)
+	
+	//barra de espaço
+	barraEspaco = keyboard_check_pressed(vk_space)
+	
+	//Letra Q
+	teclaQ = keyboard_check_pressed(ord("Q"))
+	
+	//botão esquerdo
+	botaoEsquerdo = mouse_check_button_pressed(mb_left)
+	
+	//Variavel que armazena todas as teclas 
+	teclaAtaque = teclaEnter or barraEspaco or teclaQ or botaoEsquerdo
 
 #endregion
 
@@ -166,6 +191,21 @@ Para fechar
 			propulsaohorizontal += direcaoHorizontal
 		}
 		
+		/*
+		function motion_add(dir: Real, speed: Real) ->
+		Undefined
+		This function will modify current direction and speed of the instance runing the code, combining the values
+		given with the current values.
+		dir the added direction.
+		speed the added speed.
+		
+		Tradução
+		Função motion_add(dir valor real, spped: real) -> retorno indefinido
+		Esta função modificara a direção atual e a velocidade que  da instancia , combinando os valores com os valores atuais 
+		dir adiciona a direçaõ
+		speed adiciona a velocidade
+		*/
+		
 		  if propulsaoVertical + direcaoVertical <= velocidadeLimite and propulsaoVertical + direcaoVertical >= -velocidadeLimite{
 			  propulsaoVertical += direcaoVertical
 		  }
@@ -192,11 +232,29 @@ Para fechar
 			propulsaohorizontal += sign(propulsaohorizontal) * -0.5
 			propulsaoVertical += sign(propulsaoVertical) * -0.5
 	}
-	
+		/*/jeito antigo de se mover
 		x += propulsaohorizontal
 		y += propulsaoVertical
-		
-		#region Teletransporte
+		*/
+		//Novo jeito usando a propulsão
+		//quando apertar para andar
+		if andar{
+			
+			//usa a função motion_add
+			motion_add(image_angle, velocidade)
+			
+			//limita a velocidade
+			if speed > velocidadeLimite{
+				speed = velocidadeLimite
+			}
+			
+		}
+		//se não apertar para ir para frente e esta andando
+		else if speed > 0 {
+			//soma o valor ao contrario vezes 0.5, ou seja, soma ao contrario a metade do valor
+			motion_add(image_angle, -velocidade * 0.5)
+		}
+			#region Teletransporte
 		/*
 		o teletransporte funcionara de uma maneira bem simples toda vez que o player sair pelas bordas 
 		do jogo teletransportaemos ele para o outro canto
@@ -251,4 +309,11 @@ Para fechar
 			}
 		
 		
+#endregion
+
+#region Movimentação
+		//Toda vez que apertarmos uma tecla de tiro,iremos criar 1
+		if teclaAtaque{
+			instance_create_layer(x,y, "instances", Obj_Tiro)
+		}
 #endregion

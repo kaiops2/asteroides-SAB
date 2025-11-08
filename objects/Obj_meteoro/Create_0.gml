@@ -103,8 +103,10 @@ para manter uma boa velocidade,o valor minimo vai ser 2,e para não ficar muito 
 o maximo vai ser 5
 */
 
-velocidade = random_range(2,5)
+velocidade = random_range(0.5,3)
 
 //por fim,recebemos as posições no lugar certo
 x = posicaoX
 y = posicaoY
+
+vida = 10
