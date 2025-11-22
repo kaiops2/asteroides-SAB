@@ -176,7 +176,7 @@ Para fechar
 	//Caso precione os botões para cima
 	
 	//No final, iremos somar o angulo mais 1 e multiplicar pela direção
-	if andar{
+	//if andar{
 		/*
 		A cada vez que o player apertar para frente,iremos aumentar o valor da propulsão 
 		e pior exemplo,caso ele esteja indo para frente e virar ao lado ao contrario,demorara 
@@ -187,9 +187,9 @@ Para fechar
 		
 		// vamos limitar a velocidade do player para o que há em velocidadelimite
 		//ou seja, a propulsaõ vai de (atualmente) de 30 a -30
-		if propulsaohorizontal  + direcaoHorizontal <= velocidadeLimite and propulsaohorizontal + direcaoHorizontal >= -velocidadeLimite{
+	/*	if propulsaohorizontal  + direcaoHorizontal <= velocidadeLimite and propulsaohorizontal + direcaoHorizontal >= -velocidadeLimite{
 			propulsaohorizontal += direcaoHorizontal
-		}
+		}*/
 		
 		/*
 		function motion_add(dir: Real, speed: Real) ->
@@ -206,11 +206,11 @@ Para fechar
 		speed adiciona a velocidade
 		*/
 		
-		  if propulsaoVertical + direcaoVertical <= velocidadeLimite and propulsaoVertical + direcaoVertical >= -velocidadeLimite{
+		  /*if propulsaoVertical + direcaoVertical <= velocidadeLimite and propulsaoVertical + direcaoVertical >= -velocidadeLimite{
 			  propulsaoVertical += direcaoVertical
 		  }
 	}
-	else{
+	else{*/
 			/*
 			para desacelerar o valor que há em propulsaõ ,iremos ultilizar a função sign()
 			descrição:
@@ -229,21 +229,21 @@ Para fechar
 			por -1 ,desta forma ,se o valor for positivo,ele vai somar -1 e quando for negativo
 			vai somar 1 fazendo ele desacelerar
 			*/
-			propulsaohorizontal += sign(propulsaohorizontal) * -0.5
+			/*propulsaohorizontal += sign(propulsaohorizontal) * -0.5
 			propulsaoVertical += sign(propulsaoVertical) * -0.5
-	}
+	}*/
 		/*/jeito antigo de se mover
 		x += propulsaohorizontal
 		y += propulsaoVertical
 		*/
 		//Novo jeito usando a propulsão
 		//quando apertar para andar
-		if andar{
+		/*if andar{
 			
 			//usa a função motion_add
 			motion_add(image_angle, velocidade)
 			
-			//limita a velocidade
+			//limita a velocidade                                                                                                                                                                                                 
 			if speed > velocidadeLimite{
 				speed = velocidadeLimite
 			}
@@ -253,8 +253,26 @@ Para fechar
 		else if speed > 0 {
 			//soma o valor ao contrario vezes 0.5, ou seja, soma ao contrario a metade do valor
 			motion_add(image_angle, -velocidade * 0.5)
+		}*/
+		
+		//se eu apertar para andar
+		if andar{
+			//se a velocidade da propulsão está dentro do limite, eu continuo aumentando o valor
+			if propulsao <= velocidadeLimite{
+				propulsao += velocidade
+			}
 		}
-			#region Teletransporte
+		//se eu soltar o andar e propulsão não é 0
+		else if propulsao != 0{
+			//diminui a velocidade
+			propulsao -= velocidade / 2
+		}
+		
+		//depois uso o motion_set que define a direção e o valor para onde vai o player
+		motion_set(image_angle, propulsao)
+			
+		
+		#region Teletransporte
 		/*
 		o teletransporte funcionara de uma maneira bem simples toda vez que o player sair pelas bordas 
 		do jogo teletransportaemos ele para o outro canto
