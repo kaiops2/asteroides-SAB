@@ -1,3 +1,9 @@
+//caso o jogo esteja pausado, ele vai ignorar as proximas linhas
+if global.pause{
+	exit
+}
+
+
 /*
 Aqui por enquanto é simples ,basta apenas adicionarmos os valores da direçaõ vezes a velocidade
 */

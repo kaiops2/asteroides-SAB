@@ -25,8 +25,8 @@
   "nineSlice":null,
   "origin":4,
   "parent":{
-    "name":"Sprites",
-    "path":"folders/Sprites.yy",
+    "name":"grupo meteoros",
+    "path":"folders/Sprites/grupo meteoros.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",

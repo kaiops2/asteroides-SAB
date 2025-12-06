@@ -20,7 +20,7 @@ velocidadeLimite = 25
 andando = true
 
 //variavel global para armazenar a quantidade de vida do player
-global.quantVida = 6
+global.quantVida = 1
 
 //para aparecer no meio do jogo, ao ser criado ele tem que aparecer na metade da altura 
 x = room_width /2
